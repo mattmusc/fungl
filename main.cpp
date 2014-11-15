@@ -75,8 +75,14 @@ int main()
     glUseProgram(program);
 
     GLint posAttrib = glGetAttribLocation(program, "position");
-    glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(posAttrib);
+    glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
+                       5*sizeof(float), 0);
+
+    GLint colAttrib = glGetAttribLocation(program, "color");
+    glEnableVertexAttribArray(colAttrib);
+    glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE,
+                          5*sizeof(float), (void*)(2*sizeof(float)));
 
     // ---------------------------- RENDERING ------------------------------ //
 

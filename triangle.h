@@ -5,13 +5,15 @@
 class Triangle
 {
 public:
+    
     Triangle()
         : vertices {
-         0.0f,  0.5f, // Vertex 1 (X, Y)
-         0.5f, -0.5f, // Vertex 2 (X, Y)
-        -0.5f, -0.5f  // Vertex 3 (X, Y)
+        0.0f,  0.5f, 1.0f, 0.0f, 0.0f, // Vertex 1: Red
+        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // Vertex 2: Green
+        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f  // Vertex 3: Blue
     } {}
-    float vertices[6];
+    
+    float vertices[15];
 };
 
 #endif
