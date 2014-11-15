@@ -7,26 +7,43 @@
 
 using namespace std;
 
+static void error_callback(int error, const char* description)
+{
+    fputs(description, stderr);
+}
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
 int main()
 {
     // -------------------------------- INIT ------------------------------- //
 
-    // Init GLFW
-    if (glfwInit() != GL_TRUE) {
-        fprintf(stderr, "Failed to initialize GLFW\n");
-        return -1;
-    }
+    GLFWwindow* window;
     
+    glfwSetErrorCallback(error_callback);
+    
+    if (!glfwInit())
+        exit(EXIT_FAILURE);
+
     // Create a rendering window with OpenGL 3.2 context
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);    
-
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL", NULL, NULL);
+    window = glfwCreateWindow(800, 600, "OpenGL", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+    
     glfwMakeContextCurrent(window);
+    glfwSetKeyCallback(window, key_callback);
 
     // Init GLEW
     glewExperimental = GL_TRUE;
@@ -34,6 +51,11 @@ int main()
         fprintf(stderr, "Failed to initialize GLEW\n");
         return -1;
     }
+
+    const GLubyte* renderer = glGetString (GL_RENDERER);
+    const GLubyte* version = glGetString (GL_VERSION);
+    cout << "Renderer: " << renderer << endl;
+    cout << "OpenGL version supported " << version << endl;
 
     // ----------------------------- RESOURCES ----------------------------- //
 
